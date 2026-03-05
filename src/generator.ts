@@ -9,17 +9,22 @@ export function generate(sentence: string): string[] {
 
   const hasNever = /\bhave never\b|\bhas never\b/i.test(sentence);
 
-  // Swap ALL contractions in one pass
+  // Strip tag question before contraction processing to avoid "is not it?" etc.
+  const tagMatch = sentence.match(/,\s+[\w']+\s+\w+\?$/);
+  const mainClause = tagMatch ? sentence.slice(0, sentence.length - tagMatch[0].length) : sentence;
+  const tagSuffix = tagMatch ? tagMatch[0] : "";
+
+  // Swap ALL contractions in one pass (main clause only)
   if (!hasNever) {
-    const pairs = findAllContractionPairs(sentence);
+    const pairs = findAllContractionPairs(mainClause);
     if (pairs.length > 0) {
       const swapped = pairs.reduce((s, [expanded, contracted]) => {
         const isExpanded = new RegExp(`\\b${escapeRegex(expanded)}\\b`, "i").test(s);
         return isExpanded
           ? swapAllContractions(s, expanded, contracted)
           : swapAllContractions(s, contracted, expanded);
-      }, sentence);
-      if (swapped !== sentence) results.add(swapped);
+      }, mainClause);
+      if (swapped !== mainClause) results.add(swapped + tagSuffix);
     }
   }
 

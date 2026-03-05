@@ -181,6 +181,23 @@ Deno.test("contraction + adverbial: have not ... yet", () => {
   ]);
 });
 
+// ── Tag questions ──
+
+Deno.test("does not expand contraction inside tag question", () => {
+  excludes(
+    generate("The mail is delivered at 10 AM, isn't it?"),
+    "The mail is delivered at 10 AM, is not it?",
+    "tag question contraction must not be expanded"
+  );
+});
+
+Deno.test("expands contraction in main clause when tag is positive", () => {
+  assertArrayIncludes(
+    generate("She doesn't work hard, does she?"),
+    ["She does not work hard, does she?"]
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {
