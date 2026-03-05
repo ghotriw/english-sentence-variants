@@ -260,6 +260,86 @@ Deno.test("moves 'while cooking dinner' to front with tag question", () => {
   );
 });
 
+// ── After-gerund adverbial clauses ──
+
+Deno.test("moves 'after finishing homework' to front", () => {
+  assertArrayIncludes(
+    generate("He plays video games after finishing homework."),
+    ["After finishing homework, he plays video games."]
+  );
+});
+
+Deno.test("moves 'after finishing homework' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("He plays video games after finishing homework, doesn't he?"),
+    ["After finishing homework, he plays video games, doesn't he?"]
+  );
+});
+
+// ── Place adverbials ──
+
+Deno.test("moves 'at home' to front", () => {
+  assertArrayIncludes(
+    generate("She usually watches TV at home."),
+    ["At home, she usually watches TV."]
+  );
+});
+
+Deno.test("moves 'at home' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("She usually watches TV at home, doesn't she?"),
+    ["At home, she usually watches TV, doesn't she?"]
+  );
+});
+
+// ── Manner adverbials ──
+
+Deno.test("moves 'with great care' to front", () => {
+  assertArrayIncludes(
+    generate("She waters her plants with great care."),
+    ["With great care, she waters her plants."]
+  );
+});
+
+Deno.test("moves 'with incredible confidence' to front", () => {
+  assertArrayIncludes(
+    generate("He spoke with incredible confidence."),
+    ["With incredible confidence, he spoke."]
+  );
+});
+
+// ── Purpose adverbials ──
+
+Deno.test("moves 'for fun' to front", () => {
+  assertArrayIncludes(
+    generate("We play board games on weekends for fun."),
+    ["For fun, we play board games on weekends."]
+  );
+});
+
+Deno.test("moves 'for fun' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("We play board games on weekends for fun, don't we?"),
+    ["For fun, we play board games on weekends, don't we?"]
+  );
+});
+
+// ── Before-gerund adverbial clauses ──
+
+Deno.test("moves 'before going to bed' to front", () => {
+  assertArrayIncludes(
+    generate("We read books before going to bed."),
+    ["Before going to bed, we read books."]
+  );
+});
+
+Deno.test("moves 'before going to bed' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("We read books before going to bed, don't we?"),
+    ["Before going to bed, we read books, don't we?"]
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {

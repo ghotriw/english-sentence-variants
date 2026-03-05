@@ -1,10 +1,15 @@
 import { escapeRegex } from "./utils.ts";
 
-// Only pure time/frequency adverbials and select adverbial clause patterns.
+// Adverbial patterns grouped by semantic type.
 // Deliberately excludes open-ended "in/on + NP" to avoid phrasal verb false matches.
-// Known edge case: "all the while [gerund]" — "while [gerund]" would be incorrectly detected.
+// Known edge case: "all the while/before/after [gerund]" — gerund clauses may be incorrectly detected.
 export const ADVERBIAL_PATTERNS: Array<RegExp> = [
-  /while \w+ing(?:\s+\w+)*/i,                               // while cooking, while cooking dinner, while listening to music
+  // Gerund clauses (time / condition)
+  /while \w+ing(?:\s+\w+)*/i,  // while cooking, while cooking dinner
+  /before \w+ing(?:\s+\w+)*/i, // before going to bed, before leaving the house
+  /after \w+ing(?:\s+\w+)*/i,  // after finishing homework, after eating dinner
+
+  // Time
   /at this time tomorrow/i,
   /right now/i,
   /so far/i,
@@ -32,6 +37,16 @@ export const ADVERBIAL_PATTERNS: Array<RegExp> = [
   /\bnow\b/i,
   /\btomorrow\b/i,
   /\byesterday\b/i,
+
+  // Place (article-less idiomatic forms only)
+  /at (?:home|work|school|church|college|university|headquarters|sea|war|peace|rest|ease)/i,
+
+  // Manner (with + known intensifier + noun)
+  // Intensifier list prevents matching accompaniment phrases like "with her friend".
+  /with (?:great|much|little|extreme|deep|real|genuine|sheer|true|tremendous|remarkable|careful|gentle|firm|quiet|loud|complete|total|absolute|perfect|enormous|incredible|amazing|wonderful|terrible|awful|increasing|growing|obvious|visible|evident|apparent|mixed|renewed|great|heightened|considerable|utmost|special|particular|unusual|extraordinary|rare|surprising|unexpected) \w+/i,
+
+  // Purpose / reason (closed list of purpose-NPs)
+  /for (?:fun|pleasure|free|safety|convenience|comfort|practice|exercise|sport|entertainment|relaxation|enjoyment|health|show|profit|effect|emphasis|real|certain|sure|good)/i,
 ];
 
 export function findTrailingAdverbial(sentence: string): string | null {
