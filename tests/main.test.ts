@@ -230,6 +230,36 @@ Deno.test("adverbial + contraction in main clause with tag question", () => {
   );
 });
 
+// ── While-gerund adverbial clauses ──
+
+Deno.test("moves 'while cooking' to front", () => {
+  assertArrayIncludes(
+    generate("He listens to the radio while cooking."),
+    ["While cooking, he listens to the radio."]
+  );
+});
+
+Deno.test("moves 'while cooking dinner' to front", () => {
+  assertArrayIncludes(
+    generate("He listens to the radio while cooking dinner."),
+    ["While cooking dinner, he listens to the radio."]
+  );
+});
+
+Deno.test("moves 'while listening to music' to front", () => {
+  assertArrayIncludes(
+    generate("She studies while listening to music."),
+    ["While listening to music, she studies."]
+  );
+});
+
+Deno.test("moves 'while cooking dinner' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("He listens to the radio while cooking dinner, doesn't he?"),
+    ["While cooking dinner, he listens to the radio, doesn't he?"]
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {

@@ -1,8 +1,10 @@
 import { escapeRegex } from "./utils.ts";
 
-// Only pure time/frequency adverbials.
+// Only pure time/frequency adverbials and select adverbial clause patterns.
 // Deliberately excludes open-ended "in/on + NP" to avoid phrasal verb false matches.
+// Known edge case: "all the while [gerund]" — "while [gerund]" would be incorrectly detected.
 export const ADVERBIAL_PATTERNS: Array<RegExp> = [
+  /while \w+ing(?:\s+\w+)*/i,                               // while cooking, while cooking dinner, while listening to music
   /at this time tomorrow/i,
   /right now/i,
   /so far/i,
