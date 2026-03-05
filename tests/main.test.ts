@@ -340,6 +340,13 @@ Deno.test("moves 'before going to bed' to front with tag question", () => {
   );
 });
 
+Deno.test("moves 'at night' to front", () => {
+  assertArrayIncludes(
+    generate("The cat does not sleep on the bed at night."),
+    ["At night, the cat does not sleep on the bed."]
+  );
+});
+
 // ── Direct questions ──
 
 Deno.test("does not move adverbial in direct question", () => {

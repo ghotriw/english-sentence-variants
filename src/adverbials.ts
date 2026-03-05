@@ -22,9 +22,9 @@ export const ADVERBIAL_PATTERNS: Array<RegExp> = [
   /this (?:morning|afternoon|evening|night|week|month|year|semester|term|season|decade|century)/i,
   /last (?:morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
   /next (?:morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
-  /on [A-Z]\w+/,                                              // on Mondays, on Saturday (capitalised day names only)
-  /at \d[\d: APMapm]*/,                                       // at 8 PM, at 7:30
-  /at (?:noon|midnight|dawn|dusk|sunrise|sunset)/i,
+  /on [A-Z]\w+/,         // on Mondays, on Saturday (capitalised day names only)
+  /at \d[\d: APMapm]*/,  // at 8 PM, at 7:30
+  /at (?:noon|midnight|dawn|dusk|sunrise|sunset|night)/i,
   /in (?:the )?(?:morning|afternoon|evening|night|winter|spring|summer|autumn|fall)/i,
   /in \d{4}/i,
   /\bbefore\b/i,
