@@ -29,10 +29,19 @@ export function generate(sentence: string): string[] {
   }
 
   // Adverbial movement — apply to all current variants
-  const adverbial = findTrailingAdverbial(sentence);
+  // Use mainClause so the tag question doesn't block detection of a trailing adverbial.
+  const adverbial = findTrailingAdverbial(mainClause);
   if (adverbial) {
+    const punct = sentence.match(/[.!?]$/)?.[0] ?? ".";
     for (const variant of Array.from(results)) {
-      results.add(moveAdverbialToStart(variant, adverbial, sentence));
+      if (tagSuffix) {
+        // Strip tag, move adverbial, re-attach tag.
+        const vMain = variant.slice(0, variant.length - tagSuffix.length) + punct;
+        const moved = moveAdverbialToStart(vMain, adverbial, mainClause + punct);
+        results.add(moved.replace(/[.!?]$/, "") + tagSuffix);
+      } else {
+        results.add(moveAdverbialToStart(variant, adverbial, sentence));
+      }
     }
   }
 

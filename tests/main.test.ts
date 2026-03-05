@@ -198,6 +198,24 @@ Deno.test("expands contraction in main clause when tag is positive", () => {
   );
 });
 
+Deno.test("moves adverbial to front in sentence with tag question", () => {
+  assertArrayIncludes(
+    generate("Your sister cooks dinner on Tuesdays, doesn't she?"),
+    ["On Tuesdays, your sister cooks dinner, doesn't she?"]
+  );
+});
+
+Deno.test("adverbial + contraction in main clause with tag question", () => {
+  assertArrayIncludes(
+    generate("She doesn't cook dinner on Tuesdays, does she?"),
+    [
+      "She does not cook dinner on Tuesdays, does she?",
+      "On Tuesdays, she doesn't cook dinner, does she?",
+      "On Tuesdays, she does not cook dinner, does she?",
+    ]
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {
