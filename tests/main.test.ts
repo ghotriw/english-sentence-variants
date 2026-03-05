@@ -205,6 +205,20 @@ Deno.test("moves adverbial to front in sentence with tag question", () => {
   );
 });
 
+Deno.test("moves 'every Saturday morning' to front", () => {
+  assertArrayIncludes(
+    generate("He cleans his room every Saturday morning."),
+    ["Every Saturday morning, he cleans his room."]
+  );
+});
+
+Deno.test("moves 'every Saturday morning' to front with tag question", () => {
+  assertArrayIncludes(
+    generate("He cleans his room every Saturday morning, doesn't he?"),
+    ["Every Saturday morning, he cleans his room, doesn't he?"]
+  );
+});
+
 Deno.test("adverbial + contraction in main clause with tag question", () => {
   assertArrayIncludes(
     generate("She doesn't cook dinner on Tuesdays, does she?"),

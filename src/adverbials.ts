@@ -11,7 +11,7 @@ export const ADVERBIAL_PATTERNS: Array<RegExp> = [
   /by noon/i,
   /by then/i,
   /by now/i,
-  /every (?:morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
+  /every (?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (?:morning|afternoon|evening|night)|morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
   /this (?:morning|afternoon|evening|night|week|month|year|semester|term|season|decade|century)/i,
   /last (?:morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
   /next (?:morning|afternoon|evening|night|day|week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|weekend|semester|term|season|decade|century|summer|winter|spring|autumn|fall|hour|minute|second)/i,
