@@ -1,0 +1,50 @@
+{
+  "name": "@ghotriw/english-sentence-variants",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghotriw/english-sentence-variants.git"
+  },
+  "exports": "./mod.ts",
+  "publish": {
+    "include": [
+      "mod.ts",
+      "src/",
+      "README.md",
+      "LICENSE"
+    ],
+    "exclude": [
+      ".github",
+      "tests/",
+      "npm/",
+      "dist/",
+      "build.js",
+      "tsconfig.build.json"
+    ]
+  },
+  "tasks": {
+    "fmt": "deno fmt --check",
+    "lint": "deno lint",
+    "check": "deno check mod.ts",
+    "test": "deno test --allow-read ./tests/"
+  },
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.42.3",
+    "@std/assert": "jsr:@std/assert@1"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "fmt": {
+    "lineWidth": 120,
+    "proseWrap": "preserve",
+    "exclude": ["**/*.md"]
+  }
+}
