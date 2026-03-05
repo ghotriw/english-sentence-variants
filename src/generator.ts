@@ -29,8 +29,10 @@ export function generate(sentence: string): string[] {
   }
 
   // Adverbial movement — apply to all current variants
-  // Use mainClause so the tag question doesn't block detection of a trailing adverbial.
-  const adverbial = findTrailingAdverbial(mainClause);
+  // Skip direct questions (end with "?" but have no tag): moving an adverbial to the
+  // front of a question sounds unnatural ("At 10 AM, is the mail delivered?").
+  const isDirectQuestion = sentence.endsWith("?") && !tagSuffix;
+  const adverbial = isDirectQuestion ? null : findTrailingAdverbial(mainClause);
   if (adverbial) {
     const punct = sentence.match(/[.!?]$/)?.[0] ?? ".";
     for (const variant of Array.from(results)) {

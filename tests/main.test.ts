@@ -340,6 +340,15 @@ Deno.test("moves 'before going to bed' to front with tag question", () => {
   );
 });
 
+// ── Direct questions ──
+
+Deno.test("does not move adverbial in direct question", () => {
+  assertEquals(
+    generate("Is the mail delivered at 10 AM?"),
+    ["Is the mail delivered at 10 AM?"]
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {
