@@ -356,6 +356,36 @@ Deno.test("does not move adverbial in direct question", () => {
   );
 });
 
+// ── Article variants (opt-in) ──
+
+Deno.test("articleVariants off by default: no article swapping", () => {
+  assertEquals(
+    generate("The keys are kept in the drawer."),
+    ["The keys are kept in the drawer."]
+  );
+});
+
+Deno.test("articleVariants: in the → in a", () => {
+  assertArrayIncludes(
+    generate("The keys are kept in the drawer.", { articleVariants: true }),
+    ["The keys are kept in a drawer."]
+  );
+});
+
+Deno.test("articleVariants: on the → on an (vowel)", () => {
+  assertArrayIncludes(
+    generate("He sleeps on the armchair.", { articleVariants: true }),
+    ["He sleeps on an armchair."]
+  );
+});
+
+Deno.test("articleVariants: does not change 'in the morning'", () => {
+  excludes(
+    generate("She reads in the morning.", { articleVariants: true }),
+    "She reads in a morning."
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {

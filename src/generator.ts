@@ -2,8 +2,14 @@ import { escapeRegex } from "./utils.ts";
 import { findAllContractionPairs, swapAllContractions } from "./contractions.ts";
 import { findTrailingAdverbial, moveAdverbialToStart } from "./adverbials.ts";
 import { buildNeverInversion } from "./neverInversion.ts";
+import { swapDefiniteArticles } from "./articles.ts";
 
-export function generate(sentence: string): string[] {
+export interface GenerateOptions {
+  /** Generate variants with "in/on the [noun]" → "in/on a/an [noun]". Default: false. */
+  articleVariants?: boolean;
+}
+
+export function generate(sentence: string, options: GenerateOptions = {}): string[] {
   const results = new Set<string>();
   results.add(sentence);
 
@@ -50,6 +56,14 @@ export function generate(sentence: string): string[] {
   // "never" inversion
   const neverInversion = buildNeverInversion(sentence);
   if (neverInversion) results.add(neverInversion);
+
+  // Article variants: "in/on the [noun]" → "in/on a/an [noun]" (opt-in)
+  if (options.articleVariants) {
+    for (const variant of Array.from(results)) {
+      const swapped = swapDefiniteArticles(variant);
+      if (swapped) results.add(swapped);
+    }
+  }
 
   return Array.from(results);
 }
