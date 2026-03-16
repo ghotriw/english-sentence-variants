@@ -19,7 +19,13 @@ export function generate(sentence: string): string[] {
     const pairs = findAllContractionPairs(mainClause);
     if (pairs.length > 0) {
       const swapped = pairs.reduce((s, [expanded, contracted]) => {
+        // Skip expanding a contraction that starts an inverted question
+        // e.g. "Won't you…?" — expanding gives ungrammatical "Will not you…?"
         const isExpanded = new RegExp(`\\b${escapeRegex(expanded)}\\b`, "i").test(s);
+        if (!isExpanded && sentence.endsWith("?") && !tagSuffix &&
+            new RegExp(`^${escapeRegex(contracted)}\\b`, "i").test(s)) {
+          return s;
+        }
         return isExpanded
           ? swapAllContractions(s, expanded, contracted)
           : swapAllContractions(s, contracted, expanded);

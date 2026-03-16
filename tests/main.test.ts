@@ -363,6 +363,14 @@ Deno.test("does not move adverbial in direct question", () => {
   );
 });
 
+Deno.test("does not expand contraction at start of inverted question", () => {
+  excludes(
+    generate("Won't you write your phone number here?"),
+    "Will not you write your phone number here?",
+    "inverted question contraction must not be expanded"
+  );
+});
+
 // ── No-op sentences ──
 
 Deno.test("no variants for sentence with no contractions, adverbials, or never", () => {
