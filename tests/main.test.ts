@@ -58,6 +58,13 @@ Deno.test("contracts have not → haven't", () => {
   assertArrayIncludes(generate("I have not visited Paris yet."), ["I haven't visited Paris yet."]);
 });
 
+Deno.test("expands You'll → You will, keeps tag question contracted", () => {
+  assertArrayIncludes(
+    generate("You'll carry the umbrella, won't you?"),
+    ["You will carry the umbrella, won't you?"]
+  );
+});
+
 // ── Adverbial movement ──
 
 Deno.test("moves 'every morning' to front", () => {

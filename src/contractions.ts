@@ -55,7 +55,7 @@ export function findAllContractionPairs(sentence: string): Array<[string, string
     }
   }
   for (const [contracted, expanded] of Object.entries(EXPANSIONS)) {
-    if (new RegExp(`\\b${escapeRegex(contracted)}\\b`).test(sentence)) {
+    if (new RegExp(`\\b${escapeRegex(contracted)}\\b`, "i").test(sentence)) {
       if (!found.some(([e]) => e === expanded)) {
         found.push([expanded, contracted]);
       }
