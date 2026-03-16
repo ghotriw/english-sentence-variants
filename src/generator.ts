@@ -1,5 +1,5 @@
 import { escapeRegex } from "./utils.ts";
-import { findAllContractionPairs, swapAllContractions } from "./contractions.ts";
+import { EXPANSIONS, findAllContractionPairs, swapAllContractions } from "./contractions.ts";
 import { findTrailingAdverbial, moveAdverbialToStart } from "./adverbials.ts";
 import { buildNeverInversion } from "./neverInversion.ts";
 
@@ -18,11 +18,12 @@ export function generate(sentence: string): string[] {
   if (!hasNever) {
     const pairs = findAllContractionPairs(mainClause);
     if (pairs.length > 0) {
+      const isInvertedQuestion = sentence.endsWith("?") && !tagSuffix;
       const swapped = pairs.reduce((s, [expanded, contracted]) => {
-        // Skip expanding a contraction that starts an inverted question
-        // e.g. "Won't you…?" — expanding gives ungrammatical "Will not you…?"
         const isExpanded = new RegExp(`\\b${escapeRegex(expanded)}\\b`, "i").test(s);
-        if (!isExpanded && sentence.endsWith("?") && !tagSuffix &&
+        // Skip expanding a contraction that starts an inverted question —
+        // handled separately below with word reorder.
+        if (!isExpanded && isInvertedQuestion &&
             new RegExp(`^${escapeRegex(contracted)}\\b`, "i").test(s)) {
           return s;
         }
@@ -31,6 +32,29 @@ export function generate(sentence: string): string[] {
           : swapAllContractions(s, contracted, expanded);
       }, mainClause);
       if (swapped !== mainClause) results.add(swapped + tagSuffix);
+    }
+
+    // Inverted questions: "Won't you go?" → "Will you not go?"
+    // Only safe when a pronoun immediately follows the contraction.
+    if (sentence.endsWith("?") && !tagSuffix) {
+      const pronouns = "I|you|he|she|it|we|they";
+      const invertedMatch = mainClause.match(
+        new RegExp(`^([\\w']+)\\s+(${pronouns})\\b\\s*(.*)$`, "i")
+      );
+      if (invertedMatch) {
+        const [, contrWord, pronoun, rest] = invertedMatch;
+        const expanded = EXPANSIONS[contrWord.toLowerCase()];
+        if (expanded) {
+          const aux = expanded === "cannot"
+            ? "can"
+            : expanded.replace(/ not$/, "");
+          const casedAux = contrWord[0] === contrWord[0].toUpperCase()
+            ? aux.charAt(0).toUpperCase() + aux.slice(1)
+            : aux;
+          const reordered = `${casedAux} ${pronoun.toLowerCase()} not ${rest}`;
+          results.add(reordered);
+        }
+      }
     }
   }
 

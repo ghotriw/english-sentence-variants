@@ -363,11 +363,24 @@ Deno.test("does not move adverbial in direct question", () => {
   );
 });
 
-Deno.test("does not expand contraction at start of inverted question", () => {
-  excludes(
-    generate("Won't you write your phone number here?"),
-    "Will not you write your phone number here?",
-    "inverted question contraction must not be expanded"
+Deno.test("reorders inverted question: Won't you → Will you not", () => {
+  const variants = generate("Won't you write your phone number here?");
+  assertArrayIncludes(variants, ["Will you not write your phone number here?"]);
+  excludes(variants, "Will not you write your phone number here?",
+    "must not produce ungrammatical 'Will not you'");
+});
+
+Deno.test("reorders inverted question: Isn't she → Is she not", () => {
+  assertArrayIncludes(
+    generate("Isn't she coming?"),
+    ["Is she not coming?"]
+  );
+});
+
+Deno.test("reorders inverted question: Don't they → Do they not", () => {
+  assertArrayIncludes(
+    generate("Don't they know?"),
+    ["Do they not know?"]
   );
 });
 
